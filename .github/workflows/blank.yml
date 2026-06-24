@@ -2,8 +2,6 @@ name: Daily Maestro Test
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '30 2 * * *'
 
 jobs:
   maestro-test:
@@ -15,26 +13,17 @@ jobs:
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
-      - name: Run Emulator + Maestro
+      - name: Run Emulator and Maestro
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           arch: x86_64
           profile: pixel_6
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           script: |
-            adb wait-for-device
-
-            echo "Waiting for Android boot..."
-            while [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]]; do
-              sleep 5
-            done
-
             adb devices
 
             adb install "apk/release-1.5.7(60).apk"
-
-            export PATH="$PATH:$HOME/.maestro/bin"
 
             maestro test .maestro/Login_click_on_Hindi.yaml
