@@ -1,0 +1,33 @@
+appId: ai.onlineastrology.tarot
+---
+- stopApp
+- launchApp
+
+- runFlow:
+    when:
+      visible: "Cancel"
+    commands:
+      - tapOn: "Cancel"
+
+- tapOn: "Enter Mobile No"
+- eraseText
+- inputText: "1111111720"
+
+- tapOn: "Get OTP"
+
+- tapOn:
+    id: "ai.onlineastrology.tarot:id/otpEditText"
+- inputText: "1234"
+
+- tapOn: "हिंदी (Hindi)"
+
+- scrollUntilVisible:
+    element:
+      text: "Profile"
+
+- tapOn: "Profile"
+
+- swipe:
+    direction: DOWN
+
+- takeScreenshot: "aaj ke Tarot Cards chune"
